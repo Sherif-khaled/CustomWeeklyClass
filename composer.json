@@ -1,0 +1,17 @@
+{
+    "name": "Fajr/CustomWeeklyClass",
+    "description": "Add student texonomy and other more features to Events Schedule WP Plugin.",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Sherif Khaled",
+            "email": "sherif.khaleed@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload":{
+        "psr-4":{"Fajr\\CustomWeeklyClass\\": "./inc"}
+    }
+}
