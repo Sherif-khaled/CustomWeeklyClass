@@ -14,30 +14,16 @@
 
 
 namespace Fajr\CustomWeeklyClass\Admin;
+use Fajr\CustomWeeklyClass\Base\Functions;
 
 class RegisterWPLMSUser{
 
 	public function register(){
 		add_action( 'init', array($this, 'get_last_registerd_user'));
         add_action( 'user_register',array($this, 'register_new_user'),10,1);
+        add_action( 'delete_user',array($this,'delete_wp_user_weekly_data'),10);
 	}
-    /**
-     * Get user data after user register.
-     * @return data
-     */
-	function get_last_registerd_user(){
-
-		$args = array(
-					    'orderby'      => 'registered', // registered date
-					    'order'        => 'DESC',      // last registered goes first
-					    'number'       => 1           // limit to the last one, not required
-					);
-		$users = get_users( $args );
-
-		$last_user_registered = $users[0]; // the first user from the list
-
-		return $last_user_registered->data; // print user_login
-	}
+    
 	/**
 	 * add register user to taxonomy by user role
 	 */
@@ -46,24 +32,31 @@ class RegisterWPLMSUser{
 
 		global $wpdb;
 
+        //Insert WP User to wp_terms table.
     	$table_name = $wpdb->prefix . "terms";
-
-    	$slug = 'slug_'. $this->get_last_registerd_user()->user_login;
-
+    	$slug = 'slug_'. Functions::get_last_registerd_user()->user_login;
     	$wpdb->insert($table_name,array(
 
-    		'name'  => $this->get_last_registerd_user()->display_name,
+    		'name'  => Functions::get_last_registerd_user()->display_name,
     		'slug'  => $slug,
 
     		));
-
+        //Get last insert id from terms table.
     	$lastid = $wpdb->insert_id;
+        //Insert Wp user Id and last term id to wp_wk_users_taxonomy.
+        $table_name = $wpdb->prefix . "wk_users_taxonomy";
+        $wpdb->insert($table_name, array(
 
+            'term_id' => Functions::get_last_term_id(),
+            'user_id' => Functions::get_last_registerd_user()->ID,
+
+        ));
+        //Insert data to term_taxonomy.
     	$table_name = $wpdb->prefix . "term_taxonomy";
 
     	if (is_admin()) require_once(ABSPATH . 'wp-includes/pluggable.php');
 
-    	$user_meta = get_userdata($this->get_last_registerd_user()->ID);
+    	$user_meta = get_userdata(Functions::get_last_registerd_user()->ID);
 
 		$user_role = $user_meta->roles[0];
 
@@ -86,9 +79,36 @@ class RegisterWPLMSUser{
     		'description' => 'instructor'
 
     		));
-    	}
-
-    	
-    	
+    	}	
 	}
+    function delete_wp_user_weekly_data($user_id){
+    
+        global $wpdb;
+
+        $term_id = Functions::get_wk_users_taxonomy_by_user_id($user_id);
+
+        $term_deleted = false;
+        if(!is_null($term_id) && is_numeric($term_id)){
+
+            $term = get_term( $term_id );
+            if($term->taxonomy == 'wcs-instructor'){
+                $term_deleted = wp_delete_term( $term_id, 'wcs-instructor');
+            }
+            else{
+                $term_deleted = wp_delete_term( $term_id, 'wcs-student');
+            }            
+        }
+        
+        if($term_deleted){
+
+            $table_name = $wpdb->prefix . "wk_users_taxonomy";
+
+            $wpdb->delete($table_name , array(
+
+              'user_id' => $user_id
+            ));
+        }
+
+    
+    }
 }

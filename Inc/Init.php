@@ -24,7 +24,8 @@ final class Init{
 		return [
 			Admin\AddTaxonomy::class,
 			Admin\RegisterWPLMSUser::class,
-			Admin\AddCustomField::class,
+			Admin\RegisterCustomTaxonomyField::class,
+			Base\Enqueue::class,
 		];
 	}
 	/**

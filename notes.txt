@@ -1,0 +1,28 @@
+                                
+                               Tasks
+                               ===========
+
+
+2- delete all related user after delete wordpress user.
+3- add user to select users using ajax.
+4- push to github
+5- optimaiz addcustomfiled.php  last added functions.
+6- write comments.
+7- make full test.
+
+
+
+
+
+
+
+
+
+
+
+
+code blockets
+===============
+// Check for existing taxonomy meta for the term you're editing  
+	 //  $t_id = $tag->term_id; // Get the ID of the term you're editing  
+	 //  $term_meta = get_option( $this->taxonomy_name . "_$t_id" ); // Do the check                                

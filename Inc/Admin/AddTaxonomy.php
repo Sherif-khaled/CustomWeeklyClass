@@ -13,12 +13,12 @@
  */
 
 namespace Fajr\CustomWeeklyClass\Admin;
+use Fajr\CustomWeeklyClass\Base\Functions;
+class AddTaxonomy extends Functions{
 
-class AddTaxonomy{
 
 	public function register(){
 		add_action( 'init', array($this, 'student_taxonomy' ));
-
 	}
 
 	function student_taxonomy(){
