@@ -5,7 +5,7 @@
              
         <?php
 
-           // use Fajr\CustomWeeklyClass\Base\Functions;
+            use Fajr\CustomWeeklyClass\Base\Functions;
         
             foreach (Functions::get_avalibal_wp_users($this->user_role) as $user) {
                

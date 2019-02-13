@@ -19,7 +19,7 @@ use Fajr\CustomWeeklyClass\Base\Functions;
 class RegisterWPLMSUser{
 
 	public function register(){
-		add_action( 'init', array($this, 'get_last_registerd_user'));
+		//add_action( 'init', array($this, 'get_last_registerd_user'));
         add_action( 'user_register',array($this, 'register_new_user'),10,1);
         add_action( 'delete_user',array($this,'delete_wp_user_weekly_data'),10);
 	}
