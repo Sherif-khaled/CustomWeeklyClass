@@ -18,10 +18,9 @@ class Functions extends BaseController
 {
 	/**
 	 * Get list of Wordpress users by user role
-	 * @param  $role Wordpress User role
-	 * @return  $users  list of wordpress users
+	 * @param  role Wordpress User role
+	 * @return  users  list of wordpress users
 	 */
-	
 	function get_WP_users($role){
 
 	    $args = array(
@@ -31,11 +30,9 @@ class Functions extends BaseController
 	                    );
 	    $users = get_users( $args );
 
-	    $users = $users;
-
 	    return $users;
     }
-    function get_WP_users_using_quary($role){
+    function get_WP_users_using_quarry($role){
 
     	global $wpdb;
 	    $table_name = $wpdb->prefix . "users";
@@ -61,7 +58,7 @@ class Functions extends BaseController
      * Get user data after WP user register.
      * @return data
      */
-    function get_last_registerd_user(){
+    function get_last_registered_user(){
 
         $args = array(
                         'orderby'      => 'registered', // registered date
@@ -74,6 +71,7 @@ class Functions extends BaseController
 
         return $last_user_registered->data; // print user_login
     }
+    
     function get_wk_users_taxonomy(){
 
     	global $wpdb;
@@ -104,20 +102,19 @@ class Functions extends BaseController
 
         return $result[0]->term_id;
     }
-    function get_avalibal_wp_users($role){
+    function get_available_wp_users($role){
 
-    	$wp_users = $this->get_WP_users_using_quary($role);
+    	$wp_users = $this->get_WP_users_using_quarry($role);
 
         $wp_users = $this->recursive_change_key($wp_users, array('ID' => 'user_id'));
 
         $taxonomy_users = $this->get_wk_users_taxonomy();
 
-        $tax_users = array();
         $tax_users = json_decode(json_encode($taxonomy_users), True);
 
-        $avalibale_users = $this->check_diff_multi_array($wp_users,$tax_users);
+        $available_users = $this->check_diff_multi_array($wp_users,$tax_users);
 
-        $id_value = array_column($avalibale_users, 'user_id');
+        $id_value = array_column($available_users, 'user_id');
 
         $wp_users_data = array();
         foreach ($id_value as $value){
@@ -143,8 +140,8 @@ class Functions extends BaseController
     }
     /**
      *  Change array key
-     *  @param $arr => original array
-     *  @param $set => array containing old keys as keys and new keys as values
+     *  @param arr => original array
+     *  @param set => array containing old keys as keys and new keys as values
      *  @return new array with the new key 
      */
     function recursive_change_key($arr, $set) {
@@ -165,11 +162,12 @@ class Functions extends BaseController
 
     	return $arr;    
     }
+
     /**
      * Return  the difference between two multidimensional array.
-     * @param  $array1
-     * @param  $array2
-     * @return $array1
+     * @param  array1
+     * @param  array2
+     * @return array1
      */
     function check_diff_multi_array($array1, $array2){
 

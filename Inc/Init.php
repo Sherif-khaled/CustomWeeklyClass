@@ -25,11 +25,13 @@ final class Init{
 			Admin\AddTaxonomy::class,
 			Admin\RegisterWPLMSUser::class,
 			Admin\RegisterCustomTaxonomyField::class,
+			Admin\AddMetaBox::class,
+			Admin\EnrollUsers::class,
 			Base\Enqueue::class,
 		];
 	}
 	/**
-	 * Loop through the classes, inittialize them,   
+	 * Loop through the classes, initialize them,
 	 * it exist and call the register() method if
 	 * @return
 	 */
@@ -42,9 +44,9 @@ final class Init{
 		}
 	}
 	/**
-	 * inittialize the class.
+	 * initialize the class.
 	 * @param class $class        class from the services array
-	 * @return class instantance  the new instantance of the class.
+	 * @return class instance  the new instance of the class.
 	 */
 	private static function instantiate($class){
 		$service = new $class();

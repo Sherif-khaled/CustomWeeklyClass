@@ -17,6 +17,8 @@ use Fajr\CustomWeeklyClass\Base\Functions;
 
 class AddCustomField extends Functions
 {
+	public $custom_post_name;
+
 	public $taxonomy_name;
 
 	public $html_tag_name;
@@ -36,7 +38,7 @@ class AddCustomField extends Functions
 
          /**
 		 * TODO: OPTIMIZE THE FUNCTION TO ADD USER NAME TO SELECT LIST 
-		 * AFTER REMOVE FROM TAXOXOMY.
+		 * AFTER REMOVE FROM taxonomy.
 		 */
 	    // add_action( 'wp_ajax_delete_taxonomy_custom_meta_field',array($this, 'delete_taxonomy_custom_meta_field' ));
 	    // add_action('wp_ajax_nopriv_delete_taxonomy_custom_meta_field', array($this, 'delete_taxonomy_custom_meta_field'));
@@ -44,8 +46,6 @@ class AddCustomField extends Functions
 	    add_action( "edited_{$this->taxonomy_name}" ,array($this,'save_taxonomy_custom_meta_field'), 10, 2);
 
 	    add_action( "delete_{$this->taxonomy_name}",array($this ,'delete_taxonomy_custom_meta_field'), 10, 2);
-
-	    
  
 	}
 	function taxonomy_custom_fields(){

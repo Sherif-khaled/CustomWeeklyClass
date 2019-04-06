@@ -7,7 +7,7 @@
 
             use Fajr\CustomWeeklyClass\Base\Functions;
         
-            foreach (Functions::get_avalibal_wp_users($this->user_role) as $user) {
+            foreach (Functions::get_available_wp_users($this->user_role) as $user) {
                
             echo "<option ' value='" . esc_html( $user->ID ) . "'>" . $user->data->display_name . "</option>\n"; 
             }

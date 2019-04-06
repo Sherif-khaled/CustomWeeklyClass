@@ -21,7 +21,7 @@ class AddTaxonomy extends Functions{
 		add_action( 'init', array($this, 'student_taxonomy' ));
 	}
 
-	function student_taxonomy(){
+    function student_taxonomy(){
 
 		$labels = array(
             'name'                       => _x( 'Students', 'taxonomy general name', 'WeeklyClass' ),

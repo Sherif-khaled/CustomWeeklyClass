@@ -19,7 +19,7 @@ use Fajr\CustomWeeklyClass\Base\Functions;
 class RegisterWPLMSUser{
 
 	public function register(){
-		//add_action( 'init', array($this, 'get_last_registerd_user'));
+		//add_action( 'init', array($this, 'get_last_registered_user'));
         add_action( 'user_register',array($this, 'register_new_user'),10,1);
         add_action( 'delete_user',array($this,'delete_wp_user_weekly_data'),10);
 	}
@@ -34,10 +34,10 @@ class RegisterWPLMSUser{
 
         //Insert WP User to wp_terms table.
     	$table_name = $wpdb->prefix . "terms";
-    	$slug = 'slug_'. Functions::get_last_registerd_user()->user_login;
+    	$slug = 'slug_'. Functions::get_last_registered_user()->user_login;
     	$wpdb->insert($table_name,array(
 
-    		'name'  => Functions::get_last_registerd_user()->display_name,
+    		'name'  => Functions::get_last_registered_user()->display_name,
     		'slug'  => $slug,
 
     		));
@@ -48,7 +48,7 @@ class RegisterWPLMSUser{
         $wpdb->insert($table_name, array(
 
             'term_id' => Functions::get_last_term_id(),
-            'user_id' => Functions::get_last_registerd_user()->ID,
+            'user_id' => Functions::get_last_registered_user()->ID,
 
         ));
         //Insert data to term_taxonomy.
@@ -56,7 +56,7 @@ class RegisterWPLMSUser{
 
     	if (is_admin()) require_once(ABSPATH . 'wp-includes/pluggable.php');
 
-    	$user_meta = get_userdata(Functions::get_last_registerd_user()->ID);
+    	$user_meta = get_userdata(Functions::get_last_registered_user()->ID);
 
 		$user_role = $user_meta->roles[0];
 

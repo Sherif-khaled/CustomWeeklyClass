@@ -1,28 +1,47 @@
-                                
-                               Tasks
-                               ===========
+Task description:
+------------
+enrol students and instructors to courses and enrol to patches,
+after publish the scadule course.
+                           ==============================
+
+ data requirements:
+ ---------------------
+ enrol to course
+ *****************
+ 1- course id
+ 2- list of students id
+ 3- list of instructors id  
+ enrol to patch
+ **************
+ 1- course id
+ 2- list of students id
+ 3- list of instructors id 
+ 4- course start time or start session time to set bigbluebutton session
+ 5- user gender to select what the patch will enroling
+                          ==================================
+ task process:
+ --------------
+ 1- get requier data
+ 2- enrol users to course
+ 3- enrol users to patch ============= (we need add a gender field in the user profile)
+
+                          ==================================
+ task problems:
+ --------------
+ * can't get course id,becouse the schadule plugin not connected by any way to wplms system.
+ solution: create custom field in 'class type taxonomy' and fill the fild by wplms courses,
+           and create table with fields (couese_id,term_id),
+           in this case we will get course id by term id.
+           note: when create class type we should select the course name from the coustom field.
+
+ *can't enrol the users to patch without the user gender,
+        note: wordpress not supportes the gender field in user profile.
+ solution: create the coustom gender field in user profile.
 
 
-2- delete all related user after delete wordpress user.
-3- add user to select users using ajax.
-4- push to github
-5- optimaiz addcustomfiled.php  last added functions.
-6- write comments.
-7- make full test.
+ //***********************************************************//
+   1- bug - any unregistred user can show the table.
+                                                             //
+                                                             //
+ //***********************************************************
 
-
-
-
-
-
-
-
-
-
-
-
-code blockets
-===============
-// Check for existing taxonomy meta for the term you're editing  
-	 //  $t_id = $tag->term_id; // Get the ID of the term you're editing  
-	 //  $term_meta = get_option( $this->taxonomy_name . "_$t_id" ); // Do the check                                
