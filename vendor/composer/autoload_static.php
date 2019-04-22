@@ -16,7 +16,7 @@ class ComposerStaticInit933ea664adbe8bd3ac8894135577f96b
     public static $prefixDirsPsr4 = array (
         'Fajr\\CustomWeeklyClass\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/inc',
+            0 => __DIR__ . '/../..' . '/Inc',
         ),
     );
 

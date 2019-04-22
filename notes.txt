@@ -6,24 +6,24 @@ after publish the scadule course.
 
  data requirements:
  ---------------------
- enrol to course
+ enroll to course
  *****************
  1- course id
  2- list of students id
- 3- list of instructors id  
- enrol to patch
+ 3- list of instructors id
+ enroll to patch
  **************
  1- course id
  2- list of students id
- 3- list of instructors id 
+ 3- list of instructors id
  4- course start time or start session time to set bigbluebutton session
- 5- user gender to select what the patch will enroling
+ 5- user gender to select what the patch will enrolling
                           ==================================
  task process:
  --------------
- 1- get requier data
- 2- enrol users to course
- 3- enrol users to patch ============= (we need add a gender field in the user profile)
+ 1- get require data
+ 2- enroll users to course
+ 3- enroll users to patch ============= (we need add a gender field in the user profile)
 
                           ==================================
  task problems:
@@ -32,11 +32,11 @@ after publish the scadule course.
  solution: create custom field in 'class type taxonomy' and fill the fild by wplms courses,
            and create table with fields (couese_id,term_id),
            in this case we will get course id by term id.
-           note: when create class type we should select the course name from the coustom field.
+           note: when create class type we should select the course name from the custom field.
 
- *can't enrol the users to patch without the user gender,
+ *can't enroll the users to patch without the user gender,
         note: wordpress not supportes the gender field in user profile.
- solution: create the coustom gender field in user profile.
+ solution: create the custom gender field in user profile.
 
 
  //***********************************************************//
@@ -44,4 +44,3 @@ after publish the scadule course.
                                                              //
                                                              //
  //***********************************************************
-

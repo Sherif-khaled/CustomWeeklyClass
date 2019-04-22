@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Fajr\\CustomWeeklyClass\\' => array($baseDir . '/inc'),
+    'Fajr\\CustomWeeklyClass\\' => array($baseDir . '/Inc'),
 );

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Add the wp register user to taxonomies, the class using tow 
- * roles (student , instructor). 
+ * Add the wp register user to taxonomies, the class using tow
+ * roles (student , instructor).
  *
  * @package    Events Schedule WP Plugin
  * @subpackage Custom weekly class
  * @author     Sherif Khaled <sherif.khaleed@gmail.com>
- * @copyright  2019 
+ * @copyright  2019
  * @since      1.0
  * @license    GPL
  */
@@ -38,7 +38,7 @@ class EnrollUsers{
      * @param $post_id
      * @return array
      */
-    function get_schedule_course_details($post_id){
+  function get_schedule_course_details($post_id){
 		$post = get_post_meta($post_id);
 
         $wcs_duration = $post['_wcs_duration'][0];
@@ -58,14 +58,14 @@ class EnrollUsers{
         $wcs_course_id = $post['wplms_course'][0];
 
 		$wcs_students = array();
-	
+
 		foreach( $students as  $value ){
 			global $wpdb;
 
 		    $table_name = $wpdb->prefix . "wk_users_taxonomy";
 			$users_id =  $wpdb->get_results( "SELECT user_id FROM $table_name WHERE term_id = $value->term_id" );
 
-			array_push($wcs_students, $users_id[0]->user_id);			
+			array_push($wcs_students, $users_id[0]->user_id);
         }
 
         $instructors = get_the_terms($post_id,'wcs-instructor');
@@ -77,7 +77,7 @@ class EnrollUsers{
 		    $table_name = $wpdb->prefix . "wk_users_taxonomy";
 			$users_id =  $wpdb->get_results( "SELECT user_id FROM $table_name WHERE term_id = $value->term_id" );
 
-			array_push($wcs_instructors, $users_id[0]->user_id);			
+			array_push($wcs_instructors, $users_id[0]->user_id);
         }
 
         $wcs_schedule_data = array('students' => $wcs_students,
@@ -130,13 +130,13 @@ class EnrollUsers{
 			$male = $this->create_patch('Male','public','Primary Patch',$course_id);
 			$female = $this->create_patch('Female','public','Praimary Patch',$course_id);
 
-			if($user_gender == 'male'){	
+			if($user_gender == 'male'){
 				$this->set_user_to_patch($male, $user_id);
 
-			}elseif ($user_gender == 'female') {	
+			}elseif ($user_gender == 'female') {
 				$this->set_user_to_patch($female, $user_id);
 			}
-			
+
 		}
 
 		//check if course have patches called (male,female)
@@ -190,7 +190,7 @@ class EnrollUsers{
 		return $batches;
 	}
 	function get_batch_courses($batch_id){
-		
+
 		if(!empty($this->courses[$batch_id])){ // IF already set
 			return $this->courses[$batch_id];
 		}
@@ -236,7 +236,7 @@ class EnrollUsers{
             'status' => $status,
             'date_created' => current_time('mysql')
         );
-            
+
         global $bp;
 
         $new_group_id = groups_create_group( $group_settings);
@@ -244,17 +244,17 @@ class EnrollUsers{
         if(is_numeric($new_group_id)){
             groups_update_groupmeta( $new_group_id, 'total_member_count', 1 );
             groups_update_groupmeta( $new_group_id, 'last_activity', gmdate( "Y-m-d H:i:s" ) );
-            
+
             groups_update_groupmeta( $new_group_id, 'course_batch',1);
             if($course_id <> 0){
             	groups_add_groupmeta($new_group_id,'batch_course',$course_id);
             }
-			
+
 			$group = groups_get_group( array('group_id' => $new_group_id,'populate_extras'   => false,'update_meta_cache' => false) );
         }
         return $new_group_id;
-       
-    
+
+
 	}
 
     function get_bbb_session_data($weekdays, $post_id){
