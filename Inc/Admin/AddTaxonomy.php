@@ -58,7 +58,7 @@ class AddTaxonomy extends Functions{
       )
         );
 
-        if( wp_validate_boolean( $settings['wcs_classes_archive'] ) ) unset( $args['query_var'] );
+    //    if( wp_validate_boolean( $settings['wcs_classes_archive'] ) ) unset( $args['query_var'] );
 
         register_taxonomy( 'wcs-student', 'class', $args );
 	}

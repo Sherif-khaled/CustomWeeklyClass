@@ -18,11 +18,6 @@ class EnrollUsers{
 	public function register(){
         add_action('publish_class', array($this,'enroll_users_to_course'),10,2);
 	}
-	function test($data){
-
-        var_dump($data);
-	}
-
 	function enroll_users_to_course($ID, $post){
 
 		$course_data = $this->get_schedule_course_details($ID);

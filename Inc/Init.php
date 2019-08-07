@@ -14,6 +14,7 @@
 
 
 namespace Fajr\CustomWeeklyClass;
+
 final class Init{
 
 	/**
@@ -28,6 +29,7 @@ final class Init{
 			Admin\AddMetaBox::class,
 			Admin\EnrollUsers::class,
 			Base\Enqueue::class,
+            Admin\Test::class,
 		];
 	}
 	/**

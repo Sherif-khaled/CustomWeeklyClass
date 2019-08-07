@@ -16,12 +16,17 @@ use Fajr\CustomWeeklyClass\Base\Functions;
 class AddMetaBox extends Functions{
 
 	function register(){
-
-				add_action( 'init', array($this,'bp_get_all_publish_courses') );
-				add_action( 'add_meta_boxes', array($this,'add_courses_metaboxs') );
+				add_action( 'add_meta_boxes', [$this,'add_class_metabox'] );
 				add_action( 'save_post', array($this,'save_wplms_course_custom_meta_field'), 1, 2 );
 
-                //Create User Gender Field
+//        add_action( 'add_meta_boxes', array($this,'add_batch_metabox') );
+//        add_action( 'save_post', [$this,'save_wplms_batch_custom_meta_field'], 1, 2 );
+
+        add_action( 'wp_ajax_get_course_batches',array($this, 'get_course_batches' ));
+        add_action('wp_ajax_nopriv_get_course_batches', array($this, 'get_course_batches'));
+
+
+        //Create User Gender Field
 				add_action( 'show_user_profile', array($this,'user_profile_gender') );
 				add_action( 'edit_user_profile', array($this,'user_profile_gender') );
 				add_action( "user_new_form", array($this,'user_profile_gender') );
@@ -35,20 +40,30 @@ class AddMetaBox extends Functions{
 	/**
 	 * Adds a metabox to the right side of the screen under the â€œPublishâ€ box
 	 */
-	function add_courses_metaboxs() {
+	function add_class_metabox() {
 		add_meta_box(
 			'wplms_courses',
 			'WPLMS Courses',
-			array($this,'wpt_courses_view'),
+			array($this,'wpt_wplms_courses_view'),
 			'class',
 			'normal',
 			'high'
 		);
 	}
+//    function add_batch_metabox() {
+//        add_meta_box(
+//            'wplms_batches',
+//            'WPLMS Batches',
+//            array($this,'wpt_wplms_courses_view'),
+//            'class',
+//            'normal',
+//            'high'
+//        );
+//    }
 	/**
 	 * Output the HTML for the metabox.
 	 */
-	function wpt_courses_view() {
+	function wpt_wplms_courses_view() {
 		global $post;
 		// Nonce field to validate form request came from current site
 		wp_nonce_field( basename( __FILE__ ), 'wplms_course_fields' );
@@ -57,21 +72,49 @@ class AddMetaBox extends Functions{
 		// Output the field
 		
 	    ?>
-		<label name='courses_label' for='wplms_course' >Select WPLMS Course</label>
-		<select class="form-control" id ='wplms_course' class='target' name='wplms_course' required>
-		    <option value="" selected disabled hidden>Select Here</option>
+		<div class="form-group">
+            <label class="name" name='courses_label' for='wplms_course' >Select WPLMS Course</label>
+            <div>
+                <select class="form-control tttt" id ='wplms_course' name='wplms_course' required>
+                    <option value="" selected disabled hidden>Select Here</option>
 
-		        <?php
-		            foreach (AddMetaBox::bp_get_all_publish_courses() as $course) {
-		               
-		            echo "<option ' value='" . esc_html( $course['id'] ) . "' >" . $course['name'] . "</option>\n"; 
-		            	
-		            }
-		        ?>
+                    <?php
+                    foreach (AddMetaBox::bp_get_all_publish_courses() as $course) {
 
-		</select>
+                        echo "<option ' value='" . esc_html( $course['id'] ) . "' >" . $course['name'] . "</option>\n";
 
-	    <?php	
+                    }
+                    ?>
+
+                </select>
+
+            </div>
+        </div>
+       <div style="margin-top:10px" class="form-group">
+           <label class="name" name='patches_label' for='patch' >Select Batch</label>
+           <div>
+               <select class="form-control" id ='patch' class='target' name='batch' required>
+                   <option value="" selected disabled hidden>Select Here</option>
+
+                   <?php
+                   $test = AddMetaBox::get_course_batches(128);
+                   foreach ($test as $batch) {
+
+                       echo "<option ' value='" . esc_html( $batch->id ) . "' >" . $batch->name . "</option>\n";
+
+                   }
+                   ?>
+
+               </select>
+           </div>
+       </div>
+
+<style>
+    .name{
+        font-weight: 700;
+    }
+</style>
+        <?php
     }
 
     /**
@@ -98,6 +141,31 @@ class AddMetaBox extends Functions{
   	    return $wplms_courses;
 	      
 	}
+    function get_course_batches($course_id){
+        global $wpdb;
+        $groups_table_name = $wpdb->prefix . 'bp_groups';
+
+        $meta_groups_table_name = $wpdb->prefix . 'bp_groups_groupmeta';
+
+        $course_batches = $wpdb->get_results("SELECT g.id,g.name FROM {$groups_table_name} as g
+                                                   LEFT JOIN {$meta_groups_table_name} as gm
+                                                   on g.id = gm.group_id
+                                                   WHERE meta_key = 'batch_course' 
+                                                   AND meta_value = {$course_id}");
+
+//        if (wp_doing_ajax()) {
+//
+//            $str = "";
+//            foreach ($course_batches as $batch){
+//                $str = $str . "<option>$batch</option>";
+//            }
+//            echo $str;
+//            die();
+//
+//        }
+        return $course_batches;
+
+    }
 
     /**
      * @param $post_id
@@ -138,6 +206,7 @@ class AddMetaBox extends Functions{
 		endforeach;
 	}
 
+
     /**
      * Output the User Gender Field HTML for the metabox.
      * @param $user
@@ -177,5 +246,7 @@ class AddMetaBox extends Functions{
 
 
 }
+
+
 
 //https://wptheming.com/2010/08/custom-metabox-for-post-type/

@@ -24,8 +24,7 @@ class Enqueue extends BaseController
 	}
 	function enqueue(){
 
-		wp_enqueue_script( 'ajax-script', $this->plugin_url . 'assets/js/admin/custom-fields.js', array('jquery'));
-
+        wp_enqueue_script( 'ajax-script',  $this->plugin_url . 'assets/js/admin/custom-fields.js', array('jquery'), '1.0', true );
 		
 	     $localize = array(
 	         'ajaxurl' => admin_url( 'admin-ajax.php' )

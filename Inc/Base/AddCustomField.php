@@ -13,11 +13,9 @@
  */
 
 namespace Fajr\CustomWeeklyClass\Base;
-use Fajr\CustomWeeklyClass\Base\Functions;
 
 class AddCustomField extends Functions
 {
-	public $custom_post_name;
 
 	public $taxonomy_name;
 
@@ -49,7 +47,7 @@ class AddCustomField extends Functions
  
 	}
 	function taxonomy_custom_fields(){
-       include $this->plugin_path . 'template/view.php';  
+       include $this->plugin_path . '/template/view.php';
 	}
 	function save_taxonomy_custom_meta_field( $term_id) {
 
@@ -68,7 +66,7 @@ class AddCustomField extends Functions
 	            'user_id'  => $_POST['myselect'],
 	            ));
 
-	        die();     
+            wp_die();
 	    }
 	}
 	function delete_taxonomy_custom_meta_field($term_id){
